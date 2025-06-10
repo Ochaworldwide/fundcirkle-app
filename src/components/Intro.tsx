@@ -32,8 +32,9 @@ const Intro = () => {
       {Platform.OS === 'ios' && (
         <View style={styles.iosSection}>
           {/* Example: render a single logo or a different layout */}
-          <FundLogo2 width={120} height={120} />
-          <Text style={styles.iosText}>Welcome iOS User!</Text>
+          <FundLogo2 width={100} height={100} />
+          <FundLogo3 width={100} height={100} />
+          {/* <Text style={styles.iosText}>Welcome iOS User!</Text> */}
         </View>
       )}
     </View>

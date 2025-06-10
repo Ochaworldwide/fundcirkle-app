@@ -231,15 +231,21 @@ const androidSlides = [
 const iosSlides = [
   {
     SVG: Pana1,
-    heading: 'Welcome iOS User 🎉',
+    heading: 'Welcome to FundCirkle',
     description:
-      'Experience the best of FundCirkle with native iOS performance and secure saving circles.',
+      'Empowering communities to save and achieve financial goals together through trusted group contributions.',
+  },
+  {
+    SVG: Pana2,
+    heading: 'Join Forces to Achieve More',
+    description:
+      'Start or join a Cirkle to pool resources, support each other, and make financial dreams a reality.',
   },
   {
     SVG: Pana3,
-    heading: 'Privacy and Simplicity',
+    heading: 'Easy, Transparent, and Secure',
     description:
-      'Track everything smoothly with our iOS-optimized design and enhanced security.',
+      'Track your contributions, payments, and payouts effortlessly while we keep your data safe.',
   },
 ];
 
