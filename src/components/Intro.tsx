@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
   iosSection: {
     alignItems: 'center',
     marginTop: 10,
+    flexDirection: 'row',
+    position: 'relative',
   },
   iosText: {
     marginTop: 8,
