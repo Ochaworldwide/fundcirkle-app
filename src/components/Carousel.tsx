@@ -1,13 +1,13 @@
-// import React, {useState, useRef} from 'react';
+// import React, {useState, useRef, FC} from 'react';
 // import {
 //   View,
 //   Text,
 //   StyleSheet,
 //   TouchableOpacity,
 //   Dimensions,
+//   ScrollView,
 // } from 'react-native';
 // import Swiper from 'react-native-swiper';
-// // import {useNavigation} from '@react-navigation/native';
 
 // // Import SVGs as React components
 // import Pana1 from '../../assets/images/splash/pana-1.svg';
@@ -15,8 +15,7 @@
 // import Pana3 from '../../assets/images/splash/pana-3.svg';
 // import ArrowRight from '../../assets/images/splash/arrow-right-01.svg';
 
-// const {width} = Dimensions.get('window');
-
+// const {width, height} = Dimensions.get('window');
 
 // const slides = [
 //   {
@@ -39,8 +38,11 @@
 //   },
 // ];
 
-// const Carousel: React.FC = () => {
-// //   const navigation = useNavigation();
+// interface CarouselProps {
+//   handleClick: () => void; // 👈 make sure this matches the prop you're passing
+// }
+
+// const Carousel: FC<CarouselProps> = ({handleClick}) => {
 //   const [currentIndex, setCurrentIndex] = useState(0);
 //   const [enabled, setEnabled] = useState(false);
 //   const swiperRef = useRef<Swiper>(null);
@@ -49,6 +51,7 @@
 //     if (currentIndex === slides.length - 1) {
 //       if (enabled) {
 //         // navigation.navigate('SignIn' as never);
+//         handleClick();
 //       } else {
 //         setEnabled(true);
 //       }
@@ -64,59 +67,74 @@
 //   };
 
 //   return (
-//     <View style={styles.container}>
-//       <Swiper
-//         ref={swiperRef}
-//         loop={false}
-//         showsPagination={true}
-//         onIndexChanged={(index: number) => setCurrentIndex(index)}
-//         dotColor="#ccc"
-//         activeDotColor="#00943F">
-//         {slides.map(({SVG, heading, description}, index) => (
-//           <View style={styles.slide} key={index}>
-//             <View style={styles.svgContainer}>
-//               <SVG width={width * 0.8} height={width * 0.6} />
+//     <ScrollView contentContainerStyle={styles.scrollContainer}>
+//       <View style={styles.wrapper}>
+//         <Swiper
+//           ref={swiperRef}
+//           loop={false}
+//           showsPagination={true}
+//           onIndexChanged={index => setCurrentIndex(index)}
+//           dotColor="#ccc"
+//           activeDotColor="#00943F"
+//           removeClippedSubviews={false} // avoids clipping during swipe
+//           scrollEventThrottle={16} // smoother updates
+//           nestedScrollEnabled={true} // improves nested behavior
+//           height={height * 0.7}>
+//           {slides.map(({SVG, heading, description}, index) => (
+//             <View style={styles.slide} key={index}>
+//               <View style={styles.svgContainer}>
+//                 <SVG width={width * 0.9} height={width * 0.7} />
+//               </View>
+//               <Text style={styles.heading}>{heading}</Text>
+//               <Text style={styles.description}>{description}</Text>
 //             </View>
-//             <Text style={styles.heading}>{heading}</Text>
-//             <Text style={styles.description}>{description}</Text>
-//           </View>
-//         ))}
-//       </Swiper>
+//           ))}
+//         </Swiper>
 
-//       {/* Back Button */}
-//       <TouchableOpacity
-//         style={styles.backButton}
-//         onPress={handlePrev}
-//         disabled={currentIndex === 0}>
-//         <Text style={styles.backText}>Back</Text>
-//       </TouchableOpacity>
+//         {/* Navigation Buttons */}
+//         <View style={styles.buttonContainer}>
+//           <TouchableOpacity
+//             style={styles.backButton}
+//             onPress={handlePrev}
+//             disabled={currentIndex === 0}>
+//             {currentIndex === 0 ? (
+//               <Text style={styles.backText}></Text>
+//             ) : (
+//               <Text style={styles.backText}>Back</Text>
+//             )}
 
-//       {/* Next / Get Started Button */}
-//       <TouchableOpacity
-//         style={[styles.nextButton, {backgroundColor: '#00943F'}]}
-//         onPress={handleNext}>
-//         {currentIndex === slides.length - 1 && enabled ? (
-//           <Text style={styles.nextText}>Get Started</Text>
-//         ) : (
-//           <ArrowRight width={20} height={20} />
-//         )}
-//       </TouchableOpacity>
-//     </View>
+//             {/* <Text style={styles.backText}>Back</Text> */}
+//           </TouchableOpacity>
+
+//           <TouchableOpacity
+//             style={[styles.nextButton, {backgroundColor: '#00943F'}]}
+//             onPress={handleNext}>
+//             {currentIndex === slides.length - 1 && enabled ? (
+//               <Text style={styles.nextText}>Get Started</Text>
+//             ) : (
+//               <ArrowRight width={20} height={20} />
+//             )}
+//           </TouchableOpacity>
+//         </View>
+//       </View>
+//     </ScrollView>
 //   );
 // };
 
 // const styles = StyleSheet.create({
-//   container: {
-//     marginTop: -10,
-//     paddingHorizontal: 20,
+//   scrollContainer: {
+//     justifyContent: 'center',
+//   },
+//   wrapper: {
+//     flex: 1,
 //     paddingVertical: 10,
-//     position: 'relative',
-    
+//     justifyContent: 'space-evenly',
+//     height: height * 0.6,
 //   },
 //   slide: {
 //     justifyContent: 'center',
 //     alignItems: 'center',
-//     paddingBottom: 40,
+//     paddingBottom: 20,
 //   },
 //   svgContainer: {
 //     marginBottom: 20,
@@ -133,25 +151,25 @@
 //     textAlign: 'center',
 //     paddingHorizontal: 20,
 //   },
-//   backButton: {
+//   buttonContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
 //     position: 'absolute',
-//     left: 20,
-//     top: '95%',
-//     transform: [{translateY: -20}],
-//     zIndex: 10,
+//     bottom: '-30%',
+//     width: '100%',
+//     paddingHorizontal: 10,
+//   },
+//   backButton: {
+//     padding: 10,
 //   },
 //   backText: {
 //     color: '#00000080',
 //     fontSize: 18,
 //   },
 //   nextButton: {
-//     position: 'absolute',
-//     right: 20,
-//     top: '95%',
-//     transform: [{translateY: -20}],
 //     padding: 10,
+//     paddingHorizontal: 20,
 //     borderRadius: 50,
-//     zIndex: 10,
 //     alignItems: 'center',
 //     justifyContent: 'center',
 //   },
@@ -167,11 +185,6 @@
 
 
 
-
-
-
-
-
 import React, {useState, useRef, FC} from 'react';
 import {
   View,
@@ -180,6 +193,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  Platform,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 
@@ -191,7 +205,8 @@ import ArrowRight from '../../assets/images/splash/arrow-right-01.svg';
 
 const {width, height} = Dimensions.get('window');
 
-const slides = [
+// Android slides
+const androidSlides = [
   {
     SVG: Pana1,
     heading: 'Welcome to FundCirkle',
@@ -212,8 +227,26 @@ const slides = [
   },
 ];
 
+// iOS slides (customize or reuse existing ones)
+const iosSlides = [
+  {
+    SVG: Pana1,
+    heading: 'Welcome iOS User 🎉',
+    description:
+      'Experience the best of FundCirkle with native iOS performance and secure saving circles.',
+  },
+  {
+    SVG: Pana3,
+    heading: 'Privacy and Simplicity',
+    description:
+      'Track everything smoothly with our iOS-optimized design and enhanced security.',
+  },
+];
+
+const slides = Platform.OS === 'ios' ? iosSlides : androidSlides;
+
 interface CarouselProps {
-  handleClick: () => void; // 👈 make sure this matches the prop you're passing
+  handleClick: () => void;
 }
 
 const Carousel: FC<CarouselProps> = ({handleClick}) => {
@@ -224,7 +257,6 @@ const Carousel: FC<CarouselProps> = ({handleClick}) => {
   const handleNext = () => {
     if (currentIndex === slides.length - 1) {
       if (enabled) {
-        // navigation.navigate('SignIn' as never);
         handleClick();
       } else {
         setEnabled(true);
@@ -250,9 +282,9 @@ const Carousel: FC<CarouselProps> = ({handleClick}) => {
           onIndexChanged={index => setCurrentIndex(index)}
           dotColor="#ccc"
           activeDotColor="#00943F"
-          removeClippedSubviews={false} // avoids clipping during swipe
-          scrollEventThrottle={16} // smoother updates
-          nestedScrollEnabled={true} // improves nested behavior
+          removeClippedSubviews={false}
+          scrollEventThrottle={16}
+          nestedScrollEnabled={true}
           height={height * 0.7}>
           {slides.map(({SVG, heading, description}, index) => (
             <View style={styles.slide} key={index}>
@@ -265,19 +297,14 @@ const Carousel: FC<CarouselProps> = ({handleClick}) => {
           ))}
         </Swiper>
 
-        {/* Navigation Buttons */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.backButton}
             onPress={handlePrev}
             disabled={currentIndex === 0}>
-            {currentIndex === 0 ? (
-              <Text style={styles.backText}></Text>
-            ) : (
-              <Text style={styles.backText}>Back</Text>
-            )}
-
-            {/* <Text style={styles.backText}>Back</Text> */}
+            <Text style={styles.backText}>
+              {currentIndex === 0 ? '' : 'Back'}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -297,17 +324,13 @@ const Carousel: FC<CarouselProps> = ({handleClick}) => {
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    // width:width,
     justifyContent: 'center',
   },
   wrapper: {
     flex: 1,
-    // paddingHorizontal: 20,
     paddingVertical: 10,
     justifyContent: 'space-evenly',
     height: height * 0.6,
-    // height:'20%',
-    // backgroundColor: 'yellow',
   },
   slide: {
     justifyContent: 'center',
@@ -316,9 +339,6 @@ const styles = StyleSheet.create({
   },
   svgContainer: {
     marginBottom: 20,
-    // borderColor: 'green',
-    // borderStyle:'solid',
-    // borderWidth:3,
   },
   heading: {
     fontSize: 22,
@@ -362,4 +382,3 @@ const styles = StyleSheet.create({
 });
 
 export default Carousel;
-

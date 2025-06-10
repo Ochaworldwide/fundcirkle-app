@@ -77,7 +77,7 @@ const WebViewScreen = forwardRef<WebViewScreenRef>((props, ref) => {
     <SafeAreaView style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{uri: 'https://fundcirkle.techr.me/home'}}
+        source={{uri: 'https://fundcirkle.com/home'}}
         javaScriptEnabled
         domStorageEnabled
         allowFileAccess={true}

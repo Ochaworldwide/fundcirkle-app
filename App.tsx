@@ -282,7 +282,8 @@ function App(): React.JSX.Element {
         onScroll={handleScroll}
         scrollEventThrottle={16}>
         {isConnected ? (
-          <WebViewScreen ref={webViewRef} />
+          // <WebViewScreen ref={webViewRef} />
+          <ThirdIntro onEnterApp={handleEnterApp} />
         ) : (
           <NoInternetScreen onRetry={handleRetry} />
         )}
