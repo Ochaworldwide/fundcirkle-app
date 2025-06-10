@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     position: 'absolute',
-    bottom: '-30%',
+    bottom: Platform.OS === 'ios' ? 0 : '-30%',
     width: '100%',
     paddingHorizontal: 10,
   },
